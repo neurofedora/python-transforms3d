@@ -2,13 +2,15 @@
 
 Name:           python-%{modname}
 Version:        0.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        3 dimensional spatial transformations
 
 License:        BSD
 URL:            http://matthew-brett.github.io/transforms3d/
 Source0:        https://github.com/matthew-brett/transforms3d/archive/%{version}/%{modname}-%{version}.tar.gz
-
+# https://github.com/matthew-brett/transforms3d/pull/7
+Patch0:         0001-pull-fixes-from-nipy-nipy.patch
+BuildRequires:  git-core
 BuildArch:      noarch
 
 %description
@@ -66,7 +68,7 @@ Code to convert between various geometric transformations.
 Python 3 version.
 
 %prep
-%autosetup -n %{modname}-%{version}
+%autosetup -n %{modname}-%{version} -S git
 
 %build
 %py2_build
@@ -91,5 +93,8 @@ nosetests-%{python3_version} -v
 %{python3_sitelib}/%{modname}*
 
 %changelog
+* Sun Nov 01 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.2.1-2
+- Backport patch from upstream (nipy/nipy)
+
 * Sun Nov 01 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.2.1-1
 - Initital package
