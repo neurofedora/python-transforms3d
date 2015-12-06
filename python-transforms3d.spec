@@ -2,15 +2,14 @@
 
 Name:           python-%{modname}
 Version:        0.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        3 dimensional spatial transformations
 
 License:        BSD
 URL:            http://matthew-brett.github.io/transforms3d/
 Source0:        https://github.com/matthew-brett/transforms3d/archive/%{version}/%{modname}-%{version}.tar.gz
-# https://github.com/matthew-brett/transforms3d/pull/7
-Patch0:         0001-pull-fixes-from-nipy-nipy.patch
-BuildRequires:  git-core
+# https://github.com/matthew-brett/transforms3d/pull/5
+Patch0:         0001-RF-allow-for-unnormalized-quaternions-in-axangle.patch
 BuildArch:      noarch
 
 %description
@@ -28,7 +27,7 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python2-%{modname}}
 BuildRequires:  python2-devel
 # Test deps
-BuildRequires:  python-nose
+BuildRequires:  python2-nose
 BuildRequires:  numpy
 Requires:       numpy
 Recommends:     sympy
@@ -68,7 +67,7 @@ Code to convert between various geometric transformations.
 Python 3 version.
 
 %prep
-%autosetup -n %{modname}-%{version} -S git
+%autosetup -n %{modname}-%{version} -p1
 
 %build
 %py2_build
@@ -93,6 +92,9 @@ nosetests-%{python3_version} -v
 %{python3_sitelib}/%{modname}*
 
 %changelog
+* Sun Dec 06 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.2.1-3
+- Backport another upstream patch
+
 * Sun Nov 01 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.2.1-2
 - Backport patch from upstream (nipy/nipy)
 
